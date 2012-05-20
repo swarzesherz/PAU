@@ -68,6 +68,7 @@ do
 				fi
 				
 				echo "${pedido:-1}" >> pedidos.log
+				./RealizarTicket.bash juan ${pedido:-1}
 								
 				exit 0
 			fi
