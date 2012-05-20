@@ -1,12 +1,19 @@
 #!/bin/bash
 # La ejecucion del programa muestra un menu donde el usurio puede realizar varias aciones
+
 trap 'echo Saliendo...; date, exit 1' 1 2 3 15 20 # esta linea  captura alguna señal que intervenga en la ejecucion del programa
-pedido="1024"
+
+if [ -a pedidos.log ]
+then
+	pedido=$(tail -1 pedidos.log)
+	pedido=$(expr $pedido + 1)
+fi
+
 
 while true   # Estructura iterativa que siempre va a ser verdadera, su propsito es que el GUI creado en las lineas siguientes se muestre indefinidamente.
 do
 	opcion=$(zenity --title="BURGER KING" --width=400 --height=500 \
-		--text="<b>Pedido numero:  ${pedido} \nSelecciona el combo que deseas agregar:</b>" \
+		--text="<b>Pedido numero:  ${pedido:-1} \nSelecciona el combo que deseas agregar:</b>" \
 		--list --column="Seleccionar" --column="Paquete"  --column="cantidad" \
 		--radiolist FALSE "Combo 1" "${cantidad1:-0}" FALSE "Combo 2" "${cantidad2:-0}" FALSE "Combo 3" "${cantidad3:-0}" FALSE "Combo 4" "${cantidad4:-0}" FALSE "Finalizar orden" "") # Menu con diversas opciones
 
@@ -42,23 +49,25 @@ do
 
 				if [ ${cantidad1:-0} -gt 0 ]
 				then
-					echo "$pedido:Combo 1:$cantidad1:67.5"	>> ventas.txt			
+					echo "${pedido:-1}:Combo 1:$cantidad1:67.5"	>> ventas.txt			
 				fi
 
 				if [ ${cantidad2:-0} -gt 0 ]
 				then
-					echo "$pedido:Combo 2:$cantidad2:67.5"	>> ventas.txt				
+					echo "${pedido:-1}:Combo 2:$cantidad2:67.5"	>> ventas.txt				
 				fi
 
 				if [ ${cantidad3:-0} -gt 0 ]
 				then
-					echo "$pedido:Combo 3:$cantidad3:67.5"	>> ventas.txt				
+					echo "${pedido:-1}:Combo 3:$cantidad3:67.5"	>> ventas.txt				
 				fi
 		
 				if [ ${cantidad4:-0} -gt 0 ]
 				then
-					echo "$pedido:Combo 4:$cantidad4:67.5"	>> ventas.txt				
+					echo "${pedido:-1}:Combo 4:$cantidad4:67.5"	>> ventas.txt				
 				fi
+				
+				echo "${pedido:-1}" >> pedidos.log
 								
 				exit 0
 			fi
