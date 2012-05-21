@@ -1,26 +1,36 @@
 #/bin/bash
-#
-###################################################################
-#este script debe ser invocado con dos argumentos vendedor y venta#
-#se hara uso del archivo en el directorio de trabajo ventas.txt   #
-#El archivo tendra el siguiente formato:                	  #
-# idVenta:nombreProducto:cantidad:precio			  #
-###################################################################
-#
+
+#################################################################
+# Este script debe ser invocado con dos argumentos:		#
+# vendedor y idventa. Del directorio de trabajo, se hara uso	#
+# del archivo  ventas.txt					#
+# El archivo tendra el siguiente formato:			#
+# 	idVenta:nombreProducto:cantidad:precio			#
+#################################################################
+
 trap 'echo Saliendo... ; exit 1' 1 2 3 15 20
-#
-if [ $# -ne 2 ]
+
+if [ $# -ne 2 ] # Si no se ejecuta con 2 argumentos
 	then
 		zenity --error --text="Error al recibir parametros"
 		exit 1
 fi
-vendedor=$1
-venta=$2
+ 
+ # Para mostrar el ticket
+zenity 	--info \
+	--text="$(awk -f calcularTotal.awk \
+		-F":" -v vendedor=${1} -v venta=${2}  ventas.txt)"
+if [ $? -ne 0 ]
+	then
+		zenity --error --text="Error al Mostrar el ticket"
+		exit 1
+fi
+ # Para Cobrar
+total=$(awk -v venta=${2} \
+	'$1 == venta {suma += ($4*$3)}END { print suma}' FS=':' ventas.txt)
 
-
-total=$(cat ventas.txt|\
-	awk -v venta=${venta} '$1 == venta' FS=":" |\
-	awk '{suma += ($4*$3)} END { print suma}' FS=":")
-
-echo "Total: " ${total}
+efectivo=$(zenity --entry \
+		--text="Total a pagar: ${total}\
+		 	\nIngresa la cantidad Recibida:")
+if [ $efectivo -
 exit 0
