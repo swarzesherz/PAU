@@ -1,7 +1,0 @@
- cantidad_producto |  producto_nombre   | precio_venta 
--------------------+--------------------+--------------
-                 2 | PAPAS              |        25.25
-                 3 | HAMBURGUESA GRANDE |        50.50
-                 1 | REFRESCO           |        20.50
-(3 rows)
-
