@@ -3,20 +3,21 @@ CREATE TABLE producto_venta (
   producto_venta_id serial NOT NULL, 
   venta_id          int4 NOT NULL, 
   producto_id       int4 NOT NULL, 
-  cantidad_producto int4 NOT NULL, 
+  cantidad_producto int4 NOT NULL,
+  precio_venta    numeric(10, 2) NOT NULL,
   PRIMARY KEY (producto_venta_id));
 
 CREATE TABLE venta (
   venta_id    serial NOT NULL, 
   vendedor_id int4 NOT NULL, 
-  venta_fecha timestamp NOT NULL, 
+  venta_fecha timestamp NOT NULL default current_timestamp,
+  pagada char(2) NOT NULL constraint venta_pagada check(pagada in ('SI','NO')) default 'NO', 
   PRIMARY KEY (venta_id));
 
 CREATE TABLE producto (
   producto_id     serial NOT NULL, 
   producto_nombre varchar(50) NOT NULL, 
-  precio          numeric(10, 2) NOT NULL, 
-  precio_venta    numeric(10, 2) NOT NULL, 
+  precio          numeric(10, 2) NOT NULL,  
   PRIMARY KEY (producto_id));
 
 CREATE TABLE vendedor (
