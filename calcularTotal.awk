@@ -1,39 +1,32 @@
 #!/usr/bin/awk -f
 
 	BEGIN{
-		if(("/bin/date '+%H:%M'"|getline fecha) != 1){
+		if(("/bin/date '+%b%d-%y %H:%M'"|getline fecha) != 1){
 			fecha = "Desconocida"
 		}
 		close("/bin/date")
-		print 	"		  BURGUER KING		    "
-		print 	"		SUC. 15327 RELOX		"
-		print 	"	 Av. Insurgentes # 2374	 	"
-		print 	"Col San Angel Del Alvaro Obregon"
-		print 	"	  Mexico Df C.P. 1000		"
-		print
-		print	"Vend: " vendedor
+		print	"Vend:" substr(vendedor,1,26)
 		print 	"--------------------------------"
-		print	"Venta: " venta"   "fecha
+		print	"Venta: "venta"  "fecha
 		print	"--------------------------------"
-
 	}
 
 	{
 			
-			if(length($2) < 7){
-				print $1" "$2"\t\t\t\t"$3
-			}
-			else if(length($2) < 16){
-				print $1" "$2"\t\t\t"$3
+			if(length($2) < 20){
+				printf "%s %s",$1,$2
+				for(i=1;i<=20-length($2);i++){printf " "}
+				printf "%s\n", $3
 			}
 			else{
-				print $1" "substr($2, 1, 18)" "$3
+				print $1" "substr($2, 1, 19)" "$3
 			}
-			suma += ($1*$3)
+			{suma += ($1*$3)}
 		
 	}
 	
 	END{
 		print	"--------------------------------"
-		print "Total:\t\t\t\t"suma
+		printf  "              Total: "
+		printf "%.2f\n",suma
 	}
