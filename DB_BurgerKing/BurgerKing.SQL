@@ -1,18 +1,19 @@
 /*createdb burgerking -E 'UTF8' -T 'template0'*/
 
 /*#CREATE DATABASE burgerking TEMPLATE template0 ENCODING 'UTF8';*/
+CREATE ROLE ventas LOGIN INHERIT;
 
 CREATE TABLE producto_venta (
   producto_venta_id serial NOT NULL, 
-  venta_id          int4 NOT NULL, 
-  producto_id       int4 NOT NULL, 
-  cantidad_producto int4 NOT NULL,
+  venta_id          integer NOT NULL, 
+  producto_id       integer NOT NULL, 
+  cantidad_producto integer NOT NULL,
   precio_venta    numeric(10, 2) NOT NULL,
   PRIMARY KEY (producto_venta_id));
 
 CREATE TABLE venta (
   venta_id    serial NOT NULL, 
-  vendedor_id int4 NOT NULL, 
+  vendedor_id integer NOT NULL, 
   venta_fecha timestamp NOT NULL default current_timestamp,
   pagada char(2) NOT NULL constraint venta_pagada check(pagada in ('SI','NO')) default 'NO', 
   PRIMARY KEY (venta_id));
@@ -59,7 +60,6 @@ CREATE UNIQUE INDEX producto_producto_id
 CREATE UNIQUE INDEX vendedor_vendedor_id 
   ON vendedor (vendedor_id);
 
-CREATE ROLE ventas LOGIN INHERIT;
 
 REVOKE ALL ON vendedor FROM ventas;
 GRANT SELECT ON vendedor TO ventas ;
