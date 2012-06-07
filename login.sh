@@ -2,13 +2,13 @@
 trap 'echo Saliendo... ; exit 1' 1 2 3 15 20
 
 auth=$(zenity --forms --title="Iniciar sesion" \
-	--text="Intro" \
+	--text="Ingrese los siguientes datos" \
 	--separator="|" \
 	--add-entry="Correo-e" \
 	--add-password="Password")
 
 case $? in
-         0)
+		0)
 			email=$(echo ${auth:-NULL} | awk 'BEGIN{FS="|"; ORS="";}{print $1;}') 
 			password=$(echo ${auth:-NULL} | awk 'BEGIN{FS="|"; ORS="";}{print $2;}' | md5sum | awk '{print $1}')
 			user=$(psql -h localhost -p 5432 -U postgres burgerking -A -t -F ':' -c "SELECT vendedor_id, ap_pat, ap_mat, nombre, passwd FROM vendedor WHERE vendedor_correo='${email}'")
@@ -26,13 +26,13 @@ case $? in
 			fi
 			echo $user;
 		;;
-         1)
-            zenity --error \
+		1)
+			zenity --error \
 			--text="No se pudo autenticar"
 			exit 1
 		;;
-        -1)
-            zenity --error \
+		-1)
+			zenity --error \
 			--text="Ha ocurrido un error inesperado."
 			exit 1
 		;;
