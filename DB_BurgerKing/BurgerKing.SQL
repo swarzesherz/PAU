@@ -71,4 +71,4 @@ REVOKE ALL ON producto_venta FROM ventas;
 GRANT INSERT, SELECT ON producto_venta TO ventas;
 
 REVOKE ALL ON venta FROM ventas;
-GRANT INSERT, SELECT ON venta TO ventas;
+GRANT INSERT, SELECT, update ON venta TO ventas;
