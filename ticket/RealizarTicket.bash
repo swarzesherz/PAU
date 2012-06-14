@@ -1,5 +1,8 @@
 #/bin/bash
-#
+
+# Equipo Kernihan
+# Programado por Angulo Ramirez Daniel
+
 # Mandar a llamar como: 
 #	./ticket/RealizarTicket.bash vendedor_id venta_id
 #
