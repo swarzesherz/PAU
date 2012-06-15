@@ -1,5 +1,8 @@
 #/bin/bash
-#
+
+# Equipo Kernihan
+# Programado por Angulo Ramirez Daniel
+
 # Mandar a llamar como: 
 #	./ticket/RealizarTicket.bash vendedor_id venta_id
 #
@@ -36,6 +39,11 @@ do
 	efectivo=$(zenity --entry \
 		--text="Total a pagar: ${total}\
 		 	\nIngresa la cantidad Recibida:" --title="Ingrese Efectivo")
+		 	if [ $? -ne 0 ]
+		 		then
+		 			zenity --error --text="cancelado"
+		 			exit 1
+		 		fi
 	valido=$(echo "${efectivo:-0}-${total}"|bc -l|awk '{print substr($0, 1, 1)}')
 	if [ ${valido:--} == "-" ]
 	then
