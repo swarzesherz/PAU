@@ -9,6 +9,10 @@ my $id_vendedor;
 #chomp($id_vendedor = `cat id`);
 $id_vendedor=1;
 my $id_venta=`psql burgerking -A -t -c "select last_value from venta_venta_id_seq"`+1;
+if(int(`psql burgerking -A -t -c "select count(*) from venta"`) eq 0){
+	$id_venta--;
+}
+
 
 
 
