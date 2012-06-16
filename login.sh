@@ -54,4 +54,5 @@ case $? in
 esac
 
 #Si todo salibo bien salimos con código 0
+./GUI.pl #Inicia la intefaz grafica.
 exit 0
